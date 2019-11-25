@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.0</TargetFramework>
+        <OutputType>Exe</OutputType>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\BulkInsert.Infrastructure\BulkInsert.Infrastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="AutoFixture" Version="4.11.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.0.0">
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        <PrivateAssets>all</PrivateAssets>
+      </PackageReference>
+      <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    </ItemGroup>
+
+</Project>
