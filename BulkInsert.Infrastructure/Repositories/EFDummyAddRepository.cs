@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BulkInsert.Core;
 using BulkInsert.Infrastructure.EntityFramework;
+using BulkInsert.Kernel;
 
-namespace BulkInsert.Infrastructure.Repositories {
+namespace BulkInsert.Infrastructure.Repositories 
+{
     public class EFDummyAddRepository : PaymentRepository
     {
         public EFDummyAddRepository(BulkInsertContext dbContext) : base(dbContext) {}

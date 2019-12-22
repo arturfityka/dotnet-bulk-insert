@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace BulkInsert.Infrastructure.Migrations
+namespace BulkInsert.Infrastructure.EntityFramework.Migrations
 {
     public partial class InitialCreate : Migration
     {

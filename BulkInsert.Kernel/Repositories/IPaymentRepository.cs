@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BulkInsert.Core 
+namespace BulkInsert.Kernel.Repositories 
 {
     public interface IPaymentRepository
     {

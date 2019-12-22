@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
-using BulkInsert.Core;
 using BulkInsert.Infrastructure.EntityFramework;
+using BulkInsert.Kernel;
 using Microsoft.Data.SqlClient;
 
 namespace BulkInsert.Infrastructure.Repositories {

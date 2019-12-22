@@ -4,7 +4,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkInsert.API", "BulkInser
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkInsert.Infrastructure", "BulkInsert.Infrastructure\BulkInsert.Infrastructure.csproj", "{18A4280F-34AE-4CF5-AD4D-B28225725F9A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkInsert.Core", "BulkInsert.Core\BulkInsert.Core.csproj", "{5B48A254-4412-4EEE-B3B9-C29C4B1BB75A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkInsert.Kernel", "BulkInsert.Kernel\BulkInsert.Kernel.csproj", "{5B48A254-4412-4EEE-B3B9-C29C4B1BB75A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkInsert.Application", "BulkInsert.Application\BulkInsert.Application.csproj", "{B0D4ECC2-E930-4A2C-86CC-8A9C97153553}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,5 +26,9 @@ Global
 		{5B48A254-4412-4EEE-B3B9-C29C4B1BB75A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B48A254-4412-4EEE-B3B9-C29C4B1BB75A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B48A254-4412-4EEE-B3B9-C29C4B1BB75A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0D4ECC2-E930-4A2C-86CC-8A9C97153553}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0D4ECC2-E930-4A2C-86CC-8A9C97153553}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0D4ECC2-E930-4A2C-86CC-8A9C97153553}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0D4ECC2-E930-4A2C-86CC-8A9C97153553}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

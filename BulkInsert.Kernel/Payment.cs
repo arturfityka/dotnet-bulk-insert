@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BulkInsert.Core
+namespace BulkInsert.Kernel
 {
     public class Payment
     {

@@ -1,17 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp3.0</TargetFramework>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\BulkInsert.Core\BulkInsert.Core.csproj" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.0" />
+      <PackageReference Include="Z.EntityFramework.Extensions.EFCore" Version="3.0.30" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="AutoFixture" Version="4.11.0" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.0.0" />
-      <PackageReference Include="Z.EntityFramework.Extensions.EFCore" Version="3.0.15" />
+      <ProjectReference Include="..\BulkInsert.Kernel\BulkInsert.Kernel.csproj" />
     </ItemGroup>
 
 </Project>

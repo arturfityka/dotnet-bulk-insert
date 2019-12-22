@@ -1,8 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BulkInsert.Core;
 using BulkInsert.Infrastructure.EntityFramework;
+using BulkInsert.Kernel;
 
 namespace BulkInsert.Infrastructure.Repositories
 {

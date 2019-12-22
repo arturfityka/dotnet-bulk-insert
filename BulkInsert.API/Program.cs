@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BulkInsert.Core;
-using BulkInsert.Infrastructure;
-using BulkInsert.Infrastructure.EntityFramework;
+using BulkInsert.Application;
 using BulkInsert.Infrastructure.Repositories;
+using BulkInsert.Infrastructure.EntityFramework;
+using BulkInsert.Kernel;
+using BulkInsert.Kernel.Repositories;
 using Newtonsoft.Json;
 
 namespace BulkInsert.API
@@ -14,15 +15,17 @@ namespace BulkInsert.API
         public static async Task Main()
         {
             var dbContext = new BulkInsertContext();
+
             var paymentRepositories = new List<IPaymentRepository>()
             {
-                // new EFDummyAddRepository(dbContext),
+                new EFDummyAddRepository(dbContext),
                 new EFAddRepository(dbContext),
                 new EFAddRangeRepository(dbContext),
                 new SqlBulkCopyRepository(dbContext),
                 // new BulkInsertRepository(dbContext)
             };
-            var performanceService = new PerformanceService();
+            
+            IPerformanceService performanceService = new PerformanceService();
 
             var result = await performanceService.CompareAsync(paymentRepositories);
             

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace BulkInsert.Infrastructure.Migrations
+namespace BulkInsert.Infrastructure.EntityFramework.Migrations
 {
     [DbContext(typeof(BulkInsertContext))]
     [Migration("20191108082055_InitialCreate")]
@@ -21,7 +21,7 @@ namespace BulkInsert.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("BulkInsert.Core.Payment", b =>
+            modelBuilder.Entity("BulkInsert.Kernel.Payment", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()

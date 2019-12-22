@@ -1,10 +1,7 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using BulkInsert.Core;
 using BulkInsert.Infrastructure.EntityFramework;
-using Fare;
-using Microsoft.EntityFrameworkCore;
+using BulkInsert.Kernel;
 
 namespace BulkInsert.Infrastructure.Repositories 
 {
@@ -25,6 +22,6 @@ namespace BulkInsert.Infrastructure.Repositories
         public BulkInsertRepository(BulkInsertContext dbContext) : base(dbContext) {}
 
         public override async Task AddAsync(IEnumerable<Payment> payments)
-            => _dbContext.BulkInsert(payments);
+            => await _dbContext.BulkInsertAsync(payments);
     }
 }

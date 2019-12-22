@@ -1,4 +1,4 @@
-using BulkInsert.Core;
+using BulkInsert.Kernel;
 using Microsoft.EntityFrameworkCore;
 
 namespace BulkInsert.Infrastructure.EntityFramework
