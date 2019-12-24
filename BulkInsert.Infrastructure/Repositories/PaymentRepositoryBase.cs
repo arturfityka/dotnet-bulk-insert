@@ -21,6 +21,6 @@ namespace BulkInsert.Infrastructure.Repositories
         public abstract Task AddAsync(IEnumerable<Payment> payments);
 
         public async Task ClearAsync()
-            => await _dbContext.Database.ExecuteSqlRawAsync($"DELETE FROM [{_dbContext.Payments}]");
+            => await _dbContext.Database.ExecuteSqlRawAsync($"DELETE FROM [{nameof(_dbContext.Payments)}]");
     }
 }
