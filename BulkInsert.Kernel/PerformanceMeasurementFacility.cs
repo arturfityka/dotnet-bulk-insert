@@ -5,48 +5,50 @@ using System.Linq;
 using System.Threading.Tasks;
 using BulkInsert.Kernel.Repositories;
 
-namespace BulkInsert.Kernel 
+namespace BulkInsert.Kernel
 {
-  public class PerformanceMeasurementFacility
-  {
-    private readonly TimeSpan _poorPerformanceBoundary = TimeSpan.FromMilliseconds(100);
-    private readonly IPaymentRepository _repository;
-    private readonly IDictionary<int, TimeSpan> _results = new Dictionary<int, TimeSpan>();
+    public class PerformanceMeasurementFacility
+    {
+        private static readonly TimeSpan PoorPerformanceBoundary = TimeSpan.FromMilliseconds(100);
+        private static readonly IDictionary<int, TimeSpan> Results = new Dictionary<int, TimeSpan>();
         
-    public PerformanceMeasurementFacility(IPaymentRepository repository)
-    {
-      _repository = repository;
+        private readonly IPaymentRepository _repository;
+
+        public PerformanceMeasurementFacility(IPaymentRepository repository)
+        {
+            _repository = repository;
+        }
+
+        public async Task MeasureAsync(Payment[] payments)
+        {
+            if (IsPoorPerformanceExpected(payments.Length))
+            {
+                return; // TODO add result with info about poor performance
+            }
+
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            await _repository.AddAsync(payments);
+
+            stopwatch.Stop();
+
+            await _repository.ClearAsync();
+
+            Results.Add(payments.Length, stopwatch.Elapsed);
+        }
+
+        private static bool IsPoorPerformanceExpected(int sampleSize)
+        {
+            if (Results.Count == 0)
+            {
+                return false;
+            }
+
+            return Results
+                .Skip(1)
+                .Where(x => x.Key <= sampleSize)
+                .Any(x => x.Value > PoorPerformanceBoundary);
+        }
     }
-
-    public async Task MeasureAsync(Payment[] payments)
-    {
-      if (IsPoorPerformanceExpected(payments.Length))
-      {
-        return; // TODO add result with info about poor performance
-      }
-            
-      var stopwatch = new Stopwatch();
-      stopwatch.Start();
-
-      await _repository.AddAsync(payments);
-            
-      stopwatch.Stop();
-
-      await _repository.ClearAsync();
-            
-      _results.Add(payments.Length, stopwatch.Elapsed);
-    }
-
-    private bool IsPoorPerformanceExpected(int sampleSize)
-    {
-      if (_results.Count == 0)
-      {
-        return false;
-      }
-
-      return _results
-       .Where(x => x.Key <= sampleSize)
-       .Any(x => x.Value > _poorPerformanceBoundary);
-    }
-  }
 }

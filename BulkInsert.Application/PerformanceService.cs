@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,33 +10,36 @@ namespace BulkInsert.Application
 {
     public class PerformanceService : IPerformanceService
     {
-        private readonly Fixture _fixture;
-
-        public PerformanceService()
-        {
-            _fixture = new Fixture();
-        }
+        private const int SamplesMaxNumber = 20;
+        private const int SampleSizeGrowthFactor = 2;
         
+        private static readonly Fixture Fixture = new Fixture();
+        private static readonly int MaxSampleSize 
+            = Convert.ToInt32(Math.Min(
+                Convert.ToDouble(int.MaxValue), 
+                Math.Pow(SampleSizeGrowthFactor, SamplesMaxNumber)
+            ));
+
         public async Task<IEnumerable<string>> CompareAsync(ICollection<IPaymentRepository> paymentRepositories)
         {
-            var testFacilities 
-                = paymentRepositories.Select(x => new PerformanceMeasurementFacility(x)).ToList();
+            var measurementFacilities 
+                = paymentRepositories.Select(repository => new PerformanceMeasurementFacility(repository)).ToArray();
             
-            for (var sampleSize = 1; sampleSize < int.MaxValue; sampleSize *= 2)
+            for (var sampleSize = 1; sampleSize < MaxSampleSize; sampleSize *= SampleSizeGrowthFactor)
             {
-                await CompareAsync(testFacilities, sampleSize);
+                await CompareAsync(measurementFacilities, sampleSize);
             }
             
             return new List<string>();
         }
 
-        private async Task CompareAsync(IEnumerable<PerformanceMeasurementFacility> testFacilities, int sample)
+        private static async Task CompareAsync(IEnumerable<PerformanceMeasurementFacility> measurementFacilities, int sampleSize)
         {
-            var payments = _fixture.CreateMany<Payment>(sample).ToArray();
+            var payments = Fixture.CreateMany<Payment>(sampleSize).ToArray();
 
-            foreach (var testFacility in testFacilities)
+            foreach (var measurementFacility in measurementFacilities)
             {
-                await testFacility.MeasureAsync(payments);
+                await measurementFacility.MeasureAsync(payments);
             }
         }
     }

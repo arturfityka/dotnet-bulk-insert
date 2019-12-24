@@ -4,9 +4,8 @@ using System.Threading.Tasks;
 using BulkInsert.Application;
 using BulkInsert.Infrastructure.Repositories;
 using BulkInsert.Infrastructure.EntityFramework;
-using BulkInsert.Kernel;
 using BulkInsert.Kernel.Repositories;
-using Newtonsoft.Json;
+using System.Text.Json;
 
 namespace BulkInsert.API
 {
@@ -15,7 +14,7 @@ namespace BulkInsert.API
         public static async Task Main()
         {
             var dbContext = new BulkInsertContext();
-
+            
             var paymentRepositories = new List<IPaymentRepository>()
             {
                 new EFDummyAddRepository(dbContext),
@@ -28,8 +27,10 @@ namespace BulkInsert.API
             IPerformanceService performanceService = new PerformanceService();
 
             var result = await performanceService.CompareAsync(paymentRepositories);
-            
-            Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
+
+            var serializedResult
+                = JsonSerializer.Serialize(result, new JsonSerializerOptions { WriteIndented = true }); 
+            Console.WriteLine(serializedResult);
             Console.Read();
         }
     }

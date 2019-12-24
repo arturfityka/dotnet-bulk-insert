@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BulkInsert.Kernel;
 using BulkInsert.Kernel.Repositories;
 
 namespace BulkInsert.Application 
