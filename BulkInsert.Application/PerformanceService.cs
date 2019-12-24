@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoFixture;
+using BulkInsert.Application.DTOs;
 using BulkInsert.Kernel;
 using BulkInsert.Kernel.Repositories;
 
@@ -20,7 +21,9 @@ namespace BulkInsert.Application
                 Math.Pow(SampleSizeGrowthFactor, SamplesMaxNumber)
             ));
 
-        public async Task<IEnumerable<string>> CompareAsync(ICollection<IPaymentRepository> paymentRepositories)
+        public async Task<IEnumerable<PerformanceComparisonDto>> CompareAsync(
+            ICollection<IPaymentRepository> paymentRepositories
+        )
         {
             var measurementFacilities 
                 = paymentRepositories.Select(repository => new PerformanceMeasurementFacility(repository)).ToArray();
@@ -29,8 +32,8 @@ namespace BulkInsert.Application
             {
                 await CompareAsync(measurementFacilities, sampleSize);
             }
-            
-            return new List<string>();
+
+            return measurementFacilities.Select(facility => new PerformanceComparisonDto(facility.Results));
         }
 
         private static async Task CompareAsync(IEnumerable<PerformanceMeasurementFacility> measurementFacilities, int sampleSize)

@@ -10,7 +10,7 @@ namespace BulkInsert.Kernel
     public class PerformanceMeasurementFacility
     {
         private static readonly TimeSpan PoorPerformanceBoundary = TimeSpan.FromMilliseconds(100);
-        private static readonly ICollection<PerformanceMeasurementResult> Results 
+        public ICollection<PerformanceMeasurementResult> Results { get; } 
             = new List<PerformanceMeasurementResult>();
         
         private readonly IPaymentRepository _objectUnderMeasurement;
@@ -32,7 +32,7 @@ namespace BulkInsert.Kernel
             await MeasureAndKeepResultAsync(payments);
         }
 
-        private static bool IsPoorPerformanceExpected(int sampleSize)
+        private bool IsPoorPerformanceExpected(int sampleSize)
         {
             if (Results.Count == 0)
             {
@@ -74,7 +74,7 @@ namespace BulkInsert.Kernel
         private void KeepResult(int sampleSize, TimeSpan value)
         {
             var result = new PerformanceMeasurementResult(
-                nameof(_objectUnderMeasurement),
+                _objectUnderMeasurement.Name,
                 sampleSize,
                 value
             );

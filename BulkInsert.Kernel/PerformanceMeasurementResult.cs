@@ -2,15 +2,17 @@ using System;
 
 namespace BulkInsert.Kernel
 {
-    internal class PerformanceMeasurementResult
+    public class PerformanceMeasurementResult
     {
+        // ReSharper disable once NotAccessedField.Local
+        // TODO To either use or remove _id
         private readonly Guid _id;
-        private readonly bool _isTimeMeasured;
-        private readonly string _measuredObjectName;
-        private readonly string _noMeasurementReason;
+        public readonly bool _isTimeMeasured;
+        public readonly string _measuredObjectName;
+        public readonly string _noMeasurementReason;
 
-        internal int SampleSize { get; }
-        internal TimeSpan Value { get; }
+        public int SampleSize { get; }
+        public TimeSpan Value { get; }
 
         public PerformanceMeasurementResult(string measuredObjectName, int sampleSize, TimeSpan value) 
             : this(measuredObjectName, sampleSize, true)
