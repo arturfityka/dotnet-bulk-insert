@@ -5,10 +5,12 @@ using BulkInsert.Kernel;
 
 namespace BulkInsert.Infrastructure.Repositories
 {
-    public class EFAddRepository : PaymentRepository
+    public class EFAddRepository : PaymentRepositoryBase
     {
-        public EFAddRepository(BulkInsertContext dbContext) : base(dbContext) {}
+        public override string Name { get; } = nameof(EFAddRepository);
         
+        public EFAddRepository(BulkInsertContext dbContext) : base(dbContext) {}
+
         public override async Task AddAsync(IEnumerable<Payment> payments)
         {
             foreach (var payment in payments)

@@ -6,28 +6,28 @@ namespace BulkInsert.Kernel
     {
         private readonly Guid _id;
         private readonly bool _isTimeMeasured;
-        private readonly string _measuredImplementation;
+        private readonly string _measuredObjectName;
         private readonly string _noMeasurementReason;
 
         internal int SampleSize { get; }
         internal TimeSpan Value { get; }
 
-        public PerformanceMeasurementResult(string measuredImplementation, int sampleSize, TimeSpan value) 
-            : this(measuredImplementation, sampleSize, true)
+        public PerformanceMeasurementResult(string measuredObjectName, int sampleSize, TimeSpan value) 
+            : this(measuredObjectName, sampleSize, true)
         {
             Value = value;
         }
 
-        public PerformanceMeasurementResult(string measuredImplementation, int sampleSize, string noMeasurementReason) 
-            : this(measuredImplementation, sampleSize, false)
+        public PerformanceMeasurementResult(string measuredObjectName, int sampleSize, string noMeasurementReason) 
+            : this(measuredObjectName, sampleSize, false)
         {
             _noMeasurementReason = noMeasurementReason;
         }
 
-        private PerformanceMeasurementResult(string measuredImplementation, int sampleSize, bool isTimeMeasured)
+        private PerformanceMeasurementResult(string measuredObjectName, int sampleSize, bool isTimeMeasured)
         {
             _id = Guid.NewGuid();
-            _measuredImplementation = measuredImplementation;
+            _measuredObjectName = measuredObjectName;
             SampleSize = sampleSize;
             _isTimeMeasured = isTimeMeasured;
         }

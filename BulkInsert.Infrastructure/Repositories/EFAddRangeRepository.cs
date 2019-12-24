@@ -5,8 +5,10 @@ using BulkInsert.Kernel;
 
 namespace BulkInsert.Infrastructure.Repositories 
 {
-    public class EFAddRangeRepository : PaymentRepository
+    public class EFAddRangeRepository : PaymentRepositoryBase
     {
+        public override string Name { get; } = nameof(EFAddRangeRepository);
+        
         public EFAddRangeRepository(BulkInsertContext dbContext) : base(dbContext) {}
 
         public override async Task AddAsync(IEnumerable<Payment> payments)
@@ -15,13 +17,5 @@ namespace BulkInsert.Infrastructure.Repositories
 
             await _dbContext.SaveChangesAsync();
         }
-    }
-    
-    public class BulkInsertRepository : PaymentRepository
-    {
-        public BulkInsertRepository(BulkInsertContext dbContext) : base(dbContext) {}
-
-        public override async Task AddAsync(IEnumerable<Payment> payments)
-            => await _dbContext.BulkInsertAsync(payments);
     }
 }

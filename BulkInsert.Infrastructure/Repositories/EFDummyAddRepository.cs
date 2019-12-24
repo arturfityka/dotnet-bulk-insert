@@ -5,10 +5,12 @@ using BulkInsert.Kernel;
 
 namespace BulkInsert.Infrastructure.Repositories 
 {
-    public class EFDummyAddRepository : PaymentRepository
+    public class EFDummyAddRepository : PaymentRepositoryBase
     {
+        public override string Name { get; } = nameof(EFDummyAddRepository);
+        
         public EFDummyAddRepository(BulkInsertContext dbContext) : base(dbContext) {}
-            
+
         public override async Task AddAsync(IEnumerable<Payment> payments)
         {
             foreach (var payment in payments)

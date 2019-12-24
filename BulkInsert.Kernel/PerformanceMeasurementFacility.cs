@@ -13,25 +13,23 @@ namespace BulkInsert.Kernel
         private static readonly ICollection<PerformanceMeasurementResult> Results 
             = new List<PerformanceMeasurementResult>();
         
-        private readonly IPaymentRepository _repository;
+        private readonly IPaymentRepository _objectUnderMeasurement;
 
-        public PerformanceMeasurementFacility(IPaymentRepository repository)
+        public PerformanceMeasurementFacility(IPaymentRepository objectUnderMeasurement)
         {
-            _repository = repository;
+            _objectUnderMeasurement = objectUnderMeasurement;
         }
 
         public async Task MeasureAsync(Payment[] payments)
         {
             if (IsPoorPerformanceExpected(payments.Length))
             {
-                AddResultWithExpectedPoorPerformance(payments.Length);
+                KeepResultWithExpectedPoorPerformance(payments.Length);
                 
                 return;
             }
 
-            var value = await MeasureAndClearAsync(payments);
-
-            AddResult(payments.Length, value);
+            await MeasureAndKeepResultAsync(payments);
         }
 
         private static bool IsPoorPerformanceExpected(int sampleSize)
@@ -47,11 +45,11 @@ namespace BulkInsert.Kernel
                .Any(result => result.Value > PoorPerformanceBoundary);
         }
 
-        private void AddResultWithExpectedPoorPerformance(int sampleSize)
+        private void KeepResultWithExpectedPoorPerformance(int sampleSize)
         {
             const string message = "Poor performance is expected.";
             var result = new PerformanceMeasurementResult(
-                nameof(_repository),
+                _objectUnderMeasurement.Name,
                 sampleSize,
                 message
             );
@@ -59,24 +57,24 @@ namespace BulkInsert.Kernel
             Results.Add(result);
         }
 
-        private async Task<TimeSpan> MeasureAndClearAsync(IEnumerable<Payment> payments)
+        private async Task MeasureAndKeepResultAsync(IReadOnlyCollection<Payment> payments)
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            await _repository.AddAsync(payments);
+            await _objectUnderMeasurement.AddAsync(payments);
 
             stopwatch.Stop();
 
-            await _repository.ClearAsync();
+            await _objectUnderMeasurement.ClearAsync();
 
-            return stopwatch.Elapsed;
+            KeepResult(payments.Count, stopwatch.Elapsed);
         }
 
-        private void AddResult(int sampleSize, TimeSpan value)
+        private void KeepResult(int sampleSize, TimeSpan value)
         {
             var result = new PerformanceMeasurementResult(
-                nameof(_repository),
+                nameof(_objectUnderMeasurement),
                 sampleSize,
                 value
             );
