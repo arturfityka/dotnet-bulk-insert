@@ -2,19 +2,20 @@ using System;
 
 namespace BulkInsert.Kernel
 {
-    public class PerformanceMeasurementResult
+    internal class PerformanceMeasurementResult
     {
         private readonly Guid _id;
         private readonly bool _isTimeMeasured;
         private readonly string _measuredImplementation;
         private readonly string _noMeasurementReason;
-        private readonly int _sampleSize;
-        private readonly TimeSpan _value;
+
+        internal int SampleSize { get; }
+        internal TimeSpan Value { get; }
 
         public PerformanceMeasurementResult(string measuredImplementation, int sampleSize, TimeSpan value) 
             : this(measuredImplementation, sampleSize, true)
         {
-            _value = value;
+            Value = value;
         }
 
         public PerformanceMeasurementResult(string measuredImplementation, int sampleSize, string noMeasurementReason) 
@@ -27,7 +28,7 @@ namespace BulkInsert.Kernel
         {
             _id = Guid.NewGuid();
             _measuredImplementation = measuredImplementation;
-            _sampleSize = sampleSize;
+            SampleSize = sampleSize;
             _isTimeMeasured = isTimeMeasured;
         }
     }

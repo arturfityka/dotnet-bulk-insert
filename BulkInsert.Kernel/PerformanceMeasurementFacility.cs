@@ -10,7 +10,8 @@ namespace BulkInsert.Kernel
     public class PerformanceMeasurementFacility
     {
         private static readonly TimeSpan PoorPerformanceBoundary = TimeSpan.FromMilliseconds(100);
-        private static readonly IDictionary<int, TimeSpan> Results = new Dictionary<int, TimeSpan>();
+        private static readonly ICollection<PerformanceMeasurementResult> Results 
+            = new List<PerformanceMeasurementResult>();
         
         private readonly IPaymentRepository _repository;
 
@@ -23,19 +24,14 @@ namespace BulkInsert.Kernel
         {
             if (IsPoorPerformanceExpected(payments.Length))
             {
-                return; // TODO add result with info about poor performance
+                AddResultWithExpectedPoorPerformance(payments.Length);
+                
+                return;
             }
 
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
+            var value = await MeasureAndClearAsync(payments);
 
-            await _repository.AddAsync(payments);
-
-            stopwatch.Stop();
-
-            await _repository.ClearAsync();
-
-            Results.Add(payments.Length, stopwatch.Elapsed);
+            AddResult(payments.Length, value);
         }
 
         private static bool IsPoorPerformanceExpected(int sampleSize)
@@ -46,9 +42,46 @@ namespace BulkInsert.Kernel
             }
 
             return Results
-                .Skip(1)
-                .Where(x => x.Key <= sampleSize)
-                .Any(x => x.Value > PoorPerformanceBoundary);
+               .Skip(1)
+               .Where(result => result.SampleSize <= sampleSize)
+               .Any(result => result.Value > PoorPerformanceBoundary);
+        }
+
+        private void AddResultWithExpectedPoorPerformance(int sampleSize)
+        {
+            const string message = "Poor performance is expected.";
+            var result = new PerformanceMeasurementResult(
+                nameof(_repository),
+                sampleSize,
+                message
+            );
+            
+            Results.Add(result);
+        }
+
+        private async Task<TimeSpan> MeasureAndClearAsync(IEnumerable<Payment> payments)
+        {
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            await _repository.AddAsync(payments);
+
+            stopwatch.Stop();
+
+            await _repository.ClearAsync();
+
+            return stopwatch.Elapsed;
+        }
+
+        private void AddResult(int sampleSize, TimeSpan value)
+        {
+            var result = new PerformanceMeasurementResult(
+                nameof(_repository),
+                sampleSize,
+                value
+            );
+            
+            Results.Add(result);
         }
     }
 }
