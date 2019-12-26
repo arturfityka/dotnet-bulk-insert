@@ -17,11 +17,11 @@ namespace BulkInsert.API
             
             var paymentRepositories = new List<IPaymentRepository>()
             {
-                new EFDummyAddRepository(dbContext),
-                new EFAddRepository(dbContext),
-                new EFAddRangeRepository(dbContext),
-                new SqlBulkCopyRepository(dbContext),
-                // new BulkInsertRepository(dbContext)
+                // new EFDummyAddRepository(dbContext),
+                // new EFAddRepository(dbContext),
+                // new EFAddRangeRepository(dbContext),
+                // new SqlBulkCopyRepository(dbContext),
+                new BulkInsertRepository(dbContext)
             };
             
             IPerformanceService performanceService = new PerformanceService();
