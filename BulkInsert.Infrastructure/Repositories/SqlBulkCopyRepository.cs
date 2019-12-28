@@ -24,8 +24,7 @@ namespace BulkInsert.Infrastructure.Repositories
                 dataTable.Rows.Add(payment.Id);
             }
 
-            using (var sqlBulk =
-                new SqlBulkCopy(@"Server=localhost\SQLEXPRESS;Database=master;Trusted_Connection=True;"))
+            using (var sqlBulk = new SqlBulkCopy(BulkInsertContext.ConnectionString))
             {
                 sqlBulk.DestinationTableName = nameof(DbContext.Payments);
                 await sqlBulk.WriteToServerAsync(dataTable);
