@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BulkInsert.Infrastructure.Repositories;
 using BulkInsert.Kernel;
 
-namespace BulkInsert.Infrastructure
+namespace BulkInsert.Infrastructure.Repositories.Decorators
 {
     public class AutoDetectChangesDisabledPaymentRepositoryDecorator : PaymentRepositoryDecorator
     {
