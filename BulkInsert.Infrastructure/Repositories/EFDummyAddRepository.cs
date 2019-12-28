@@ -15,9 +15,9 @@ namespace BulkInsert.Infrastructure.Repositories
         {
             foreach (var payment in payments)
             {
-                await _dbContext.Payments.AddAsync(payment);
+                await DbContext.Payments.AddAsync(payment);
                     
-                await _dbContext.SaveChangesAsync();
+                await DbContext.SaveChangesAsync();
             }
         }
     }

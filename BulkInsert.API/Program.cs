@@ -6,6 +6,7 @@ using BulkInsert.Infrastructure.Repositories;
 using BulkInsert.Infrastructure.EntityFramework;
 using BulkInsert.Kernel.Repositories;
 using System.Text.Json;
+using BulkInsert.Infrastructure.Repositories.Decorators;
 
 namespace BulkInsert.API
 {
@@ -17,11 +18,15 @@ namespace BulkInsert.API
             
             var paymentRepositories = new List<IPaymentRepository>()
             {
-                // new EFDummyAddRepository(dbContext),
-                // new EFAddRepository(dbContext),
-                // new EFAddRangeRepository(dbContext),
-                // new SqlBulkCopyRepository(dbContext),
-                new BulkInsertRepository(dbContext)
+                new EFDummyAddRepository(dbContext),
+                new EFAddRepository(dbContext),
+                new EFAddRangeRepository(dbContext),
+                new SqlBulkCopyRepository(dbContext),
+                new AutoDetectChangesDisabledPaymentRepositoryDecorator(new EFDummyAddRepository(dbContext)),
+                new AutoDetectChangesDisabledPaymentRepositoryDecorator(new EFAddRepository(dbContext)),
+                new AutoDetectChangesDisabledPaymentRepositoryDecorator(new EFAddRangeRepository(dbContext)),
+                new AutoDetectChangesDisabledPaymentRepositoryDecorator(new SqlBulkCopyRepository(dbContext)),
+                // new BulkInsertRepository(dbContext)
             };
             
             IPerformanceService performanceService = new PerformanceService();

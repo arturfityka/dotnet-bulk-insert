@@ -13,9 +13,9 @@ namespace BulkInsert.Infrastructure.Repositories
 
         public override async Task AddAsync(IEnumerable<Payment> payments)
         {
-            await _dbContext.Payments.AddRangeAsync(payments);
+            await DbContext.Payments.AddRangeAsync(payments);
 
-            await _dbContext.SaveChangesAsync();
+            await DbContext.SaveChangesAsync();
         }
     }
 }

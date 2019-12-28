@@ -27,7 +27,7 @@ namespace BulkInsert.Infrastructure.Repositories
             using (var sqlBulk =
                 new SqlBulkCopy(@"Server=localhost\SQLEXPRESS;Database=master;Trusted_Connection=True;"))
             {
-                sqlBulk.DestinationTableName = nameof(_dbContext.Payments);
+                sqlBulk.DestinationTableName = nameof(DbContext.Payments);
                 await sqlBulk.WriteToServerAsync(dataTable);
             }
         }

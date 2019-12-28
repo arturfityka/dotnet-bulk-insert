@@ -12,6 +12,6 @@ namespace BulkInsert.Infrastructure.Repositories
         public BulkInsertRepository(BulkInsertContext dbContext) : base(dbContext) {}
 
         public override async Task AddAsync(IEnumerable<Payment> payments)
-            => await _dbContext.BulkInsertAsync(payments);
+            => await DbContext.BulkInsertAsync(payments);
     }
 }
